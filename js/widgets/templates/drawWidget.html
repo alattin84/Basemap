@@ -1,0 +1,57 @@
+<div style="text-align: center;" class="well">
+    <div class="text-right"><a id="drawPop" rel="popover" data-placement="left" title="Hint:"><i class="fa fa-question-circle fa" aria-hidden="true"></i></a></div>
+
+    <span>Select a feature to start drawing:</span>
+    <br>
+
+    <div id="drawFeatures" data-dojo-type="dijit/layout/ContentPane">
+        <button id="draw-Point" data-dojo-type="dijit/form/Button" title="Point"><img src="images/glyphicons_095_vector_path_circle.png"></button>
+        <button id="draw-Polyline" data-dojo-type="dijit/form/Button" title="Polyline"><img src="images/glyphicons_094_vector_path_square.png"></button>
+        <button id="draw-Polygon" data-dojo-type="dijit/form/Button" title="Polygon"><img src="images/glyphicons_096_vector_path_polygon.png"></button>
+        <button id="draw-Line" data-dojo-type="dijit/form/Button" title="Line"><img src="images/glyphicons_098_vector_path_line.png"></button>
+    </div>
+
+    <hr style="margin: 0;">
+
+    <div class="text-right"><a id="drawTxtPop" rel="popover" trigger="hover" data-placement="left" title="Hint:"><i class="fa fa-question-circle fa" aria-hidden="true"></i></a></div>
+
+    <span>Enter text to add to map:</span><br>
+
+    <select id="ddlFontSize"
+            data-dojo-type="dijit/form/Select">
+        <option value="12">12</option>
+        <option value="14">14</option>
+        <option value="18">18</option>
+        <option value="22">22</option>
+        <option value="28">28</option>
+        <option value="32">32</option>
+    </select>
+
+    <input id="txtDrawText"
+           data-dojo-type="dijit/form/TextBox">
+    <div data-dojo-type="dijit/form/DropDownButton">
+
+        <span>
+            <i class="fa fa-font"
+               aria-hidden="true">
+            </i>
+        </span>
+
+        <div data-dojo-type="dojox/widget/ColorPicker"
+             id="picker1">
+        </div>
+    </div>
+
+    <br><br>
+
+    <button id='btnAddText'
+            value='Point'
+            data-dojo-type="dijit/form/Button">
+        Add Text
+    </button>
+
+    <button id="btnClrDrawings"
+            data-dojo-type="dijit/form/Button">
+        Clear Graphics
+    </button>
+</div>

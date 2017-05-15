@@ -1,0 +1,35 @@
+<div style="text-align: center;" class="well">
+    <div class="text-right"><a id="latLongPop" rel="popover" data-placement="left" title="Hint:"><i class="fa fa-question-circle fa" aria-hidden="true"></i></a></div>
+    <label>Select Format:</label>
+    <select id="ddlCoord" data-dojo-type="dijit/form/Select" style="width: 50%;">
+        <option value="DMS" selected="selected">DMS</option>
+        <option value="DD">Decimal Degrees</option>
+    </select><br>
+    <div id="divDMS" data-dojo-type="dijit/layout/ContentPane" style="background: transparent;">
+        <label style="text-decoration: underline;">Latitude</label>
+        <div>
+            <span><input type="radio" checked>N</span>
+            <span><input type="radio" disabled>S</span>
+        </div>
+        <div>
+            <input id="txtLatDeg" data-dojo-type="dijit/form/NumberTextBox" type="number" style="width: 45px;" value="36"><span style="vertical-align: top;">°</span>
+            <input id="txtLatMin" data-dojo-type="dijit/form/NumberTextBox" type="number" style="width: 45px;" value="22"><span style="vertical-align: top;">'</span>
+            <input id="txtLatSec" data-dojo-type="dijit/form/NumberTextBox" type="number" style="width: 65px;" value="22.274"><span style="vertical-align: top;">"</span>
+        </div>
+        <hr style="margin-bottom: 10px; margin-top: 10px;">
+        <label style="text-decoration: underline;">Longitude</label>
+        <div>
+            <span><input type="radio" disabled>E</span>
+            <span><input type="radio" checked>W</span>
+        </div>
+        <div>
+            <input id="txtLonDeg" data-dojo-type="dijit/form/NumberTextBox" type="number" style="width: 45px;" value="94"><span style="vertical-align: top;">°</span>
+            <input id="txtLonMin" data-dojo-type="dijit/form/NumberTextBox" type="number" style="width: 45px;" value="12"><span style="vertical-align: top;">'</span>
+            <input id="txtLonSec" data-dojo-type="dijit/form/NumberTextBox" type="number" style="width: 65px;" value="31.741"><span style="vertical-align: top;">"</span>
+        </div>
+    </div>
+    <div id="divDecDeg" data-dojo-type="dijit/layout/ContentPane" style="background: transparent; display: none;">
+        <input id="txtDecDeg" type="text" placeholder="Enter Lat, Long..." value="36.3728,-94.2088" data-dojo-type="dijit/form/TextBox"><br>
+    </div>
+    <button id="btnLocate" data-dojo-type="dijit/form/Button">Locate</button>
+</div>

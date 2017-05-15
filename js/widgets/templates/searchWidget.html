@@ -1,0 +1,74 @@
+<div>
+    <ul class="nav nav-tabs">
+        <li class="active"><a href="#textSearch" data-toggle="tab">Text</a></li>
+        <li><a href="#graphSearch" data-toggle="tab">Graphical</a></li>
+        <li><a href="#spaSearch" data-toggle="tab">Spatial</a></li>
+    </ul>
+    <div class="tab-content tab-active" id="tabs">
+        <div class="tab-pane tab-background active" id="textSearch">
+            <div class="text-right"><a id="txtSrchPop" rel="popover" data-placement="left" title="Hint:"><i class="fa fa-question-circle fa" aria-hidden="true"></i></a></div>
+            <div class="text-center" style="padding-top: 1em;">
+                <label for="ddlTxtSearch">Search Layer:</label>
+                <select id="ddlTxtSearch"
+                        data-dojo-type="dijit/form/Select">
+                </select>
+            </div>
+                <br>
+            <div class="col-lg-12">
+                <span><label for="txtSearch">Search:&nbsp;</label></span><span data-dojo-attach-point="example" class="exampleText"></span><br>
+                <div>
+                    <input type="text" id="txtSearch" data-dojo-type="dijit/form/TextBox" style="width: 90%;"/>
+                    <button id="btnSearch" title="Begin search..." data-dojo-type="dijit/form/Button" style="width: 5%"><i class="fa fa-search" aria-hidden="true"></i></button>
+                </div>
+            </div>
+        </div>
+        <div class="tab-pane tab-background" id="graphSearch">
+            <div class="text-right"><a id="graSrchPop" rel="popover" data-placement="left" title="Hint:"><i class="fa fa-question-circle fa" aria-hidden="true"></i></a></div>
+            <div class="text-center" style="padding-top: 1em;">
+                <label>Search Layer:</label>
+                <select id="ddlIdentifyLayers"
+                        data-dojo-type="dijit/form/Select">
+                </select><br><br>
+                <hr style="margin: 0;">
+                <br>
+                <div>
+                    <label>Select a feature to draw:</label>
+                    <div id='infoDraw'
+                         data-dojo-type="dijit/layout/ContentPane" style="background: transparent;">
+                        <button id="btn-Point" title="Point" data-dojo-type="dijit/form/Button"><img id="img-Point" src="images/glyphicons_095_vector_path_circle.png"></button>
+                        <button id="btn-Extent" title="Extent" data-dojo-type="dijit/form/Button"><img id="img-Extent" src="images/glyphicons_094_vector_path_square.png"></button>
+                        <button id="btn-Polygon" title="Polygon" data-dojo-type="dijit/form/Button"><img id="img-Polygon" src="images/glyphicons_096_vector_path_polygon.png"></button>
+                        <button id="btn-Remove" title="Clear Graphics" data-dojo-type="dijit/form/Button"><img id="img-Remove" src="images/close.png"></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="tab-pane tab-background" id="spaSearch">
+            <div class="text-right"><a id="spaSrchPop" rel="popover" data-placement="left" title="Hint:"><i class="fa fa-question-circle fa" aria-hidden="true"></i></a></div>
+            <div class="tab-container text-center">
+                <label>Enter Buffer Distance:</label><br>
+                <div style="background: transparent;">
+                    <input id="txtDistance" class="txt-distance" data-dojo-type="dijit/form/NumberSpinner" type="text" value="20">
+                    <select id="ddlUnit" data-dojo-type="dijit/form/Select">
+                        <option value='UNIT_FOOT'>Feet</option>
+                        <option value='UNIT_STATUTE_MILE'>Miles</option>
+                        <option value='UNIT_METER'>Meters</option>
+                    </select>
+                    <br><br>
+                    <button id="btnBuffer" data-dojo-type="dijit/form/Button">Apply Buffer</button>
+                    <button id="btnClrBuffer" data-dojo-type="dijit/form/Button">Clear</button>
+                </div><br>
+                <hr style="margin: 0;"><br>
+                <div style="background: transparent;">
+                    <label>Select Features In:</label>
+                    <select id="ddlSpatialLayers" data-dojo-type="dijit/form/Select"></select>
+                    <br>
+                    <div style="padding-top: 10px;">
+                        <button id="btnSpaInt" data-dojo-type="dijit/form/Button">Intersect By</button>
+                        <button id="btnSpaCon" data-dojo-type="dijit/form/Button">Contain By</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

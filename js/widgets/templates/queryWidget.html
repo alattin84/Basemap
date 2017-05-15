@@ -1,0 +1,61 @@
+<div>
+    <ul class="nav nav-tabs">
+        <li class="nav active"><a href="#selectAttr" data-toggle="tab">Select By Attribute</a></li>
+        <li class="nav"><a href="#selectLoc" data-toggle="tab">Select By Location</a></li>
+    </ul>
+
+    <!-- Tab panes -->
+    <div class="tab-content tab-active" style="border-top: 0; background: #f7f7f7;">
+        <div class="tab-pane active" id="selectAttr">
+            <div id="attrTabsPane"
+                 data-dojo-type="dijit/layout/ContentPane"
+                 title="By Attribute">
+                <div class="text-right"><a id="selAttrPop" rel="popover" data-placement="left" title="Hint:"><i class="fa fa-question-circle fa" aria-hidden="true"></i></a></div>
+                <div data-dojo-type="dojox/layout/TableContainer"
+                     data-dojo-props="cols:1">
+                    <div id='ddlQueryLayer'
+                         data-dojo-type="dijit/form/Select"
+                         title="Layer:" style="width: 100%;"></div>
+                    <div id='ddlQueryFields'
+                         data-dojo-type="dijit/form/Select"
+                         title="Field:" style="width: 100%;"></div>
+                    <div id='ddlQueryOps'
+                         data-dojo-type="dijit/form/Select"
+                         title="Operator:" style="width: 100%;"></div>
+                    <textarea id="txtQueryExpr" data-dojo-type="dijit/form/SimpleTextarea" data-dojo-props="placeholder: 'Example: PARCELID = \'01-00160-000\''" rows="4" cols="30" style="width:100%;" title="Where:"></textarea>
+                </div>
+                <div data-dojo-type="dijit/layout/ContentPane"
+                     style="text-align: center;">
+                    <button id="btnQuery"
+                            data-dojo-type="dijit/form/Button">Select</button>
+                    <button id="btnClrQuery"
+                            data-dojo-type="dijit/form/Button">Clear Graphics</button>
+                </div>
+            </div>
+        </div>
+        <div class="tab-pane fade" id="selectLoc">
+            <div id="locTabsPane"
+                 data-dojo-type="dijit/layout/ContentPane"
+                 title="By Location">
+                <div class="text-right"><a id="selLocPop" rel="popover" data-placement="left" title="Hint:"><i class="fa fa-question-circle fa" aria-hidden="true"></i></a></div>
+                <div data-dojo-type="dijit/layout/ContentPane" style="text-align: center;">
+                    <label>Loaded Features: <label id="loadedFeatures"></label></label>
+                </div>
+                <div data-dojo-type="dojox/layout/TableContainer"
+                     data-dojo-props="cols:1">
+                    <div id='ddlSpaRelation'
+                         data-dojo-type="dijit/form/Select"
+                         title="Search Features:" style="width: 100%;"></div>
+                    <div id='ddlSourceLayer'
+                         data-dojo-type="dijit/form/Select"
+                         title="Source Layer:" style="width: 100%;"></div>
+                </div>
+                <div data-dojo-type="dijit/layout/ContentPane"
+                     style="text-align: center;">
+                    <button id="btnSelectByLoc"
+                            data-dojo-type="dijit/form/Button">Select</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

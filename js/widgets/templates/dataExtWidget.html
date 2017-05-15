@@ -1,0 +1,29 @@
+<div class="well">
+    <div class="text-right"><a id="extractPop" rel="popover" data-placement="left" title="Hint:"><i class="fa fa-question-circle fa" aria-hidden="true"></i></a></div>
+    <div id="extForm" data-dojo-type="dojox/layout/TableContainer">
+        <div id="chkListData" data-dojo-type="dojox/layout/TableContainer" title="Layers:" style="padding: 0.5em; border: 1px solid #cccccc; background: #ffffff;">
+            <div id="chkRoads" data-dojo-type="dijit/form/CheckBox" title="ACF_Roads"></div>
+            <div id="chkContours" data-dojo-type="dijit/form/CheckBox" title="Contours_2ft"></div>
+            <div id="chkParcels" data-dojo-type="dijit/form/CheckBox" title="Parcels"></div>
+            <div id="chkSubs" data-dojo-type="dijit/form/CheckBox" title="Subdivisions"></div>
+        </div>
+        <div data-dojo-type="dijit/layout/ContentPane" title="Draw Extent:" style="background-color: #f7f7f7;">
+            <button id="draw-Extent" data-dojo-type="dijit/form/Button" title="Draw extent for your AOI...">
+                <img src="images/glyphicons_094_vector_path_square.png">
+            </button>
+        </div>
+        <div id='ddlFeatureFormat' data-dojo-type="dijit/form/Select" title="Format:">
+            <span value="File Geodatabase - GDB - .gdb">File Geodatabase</span>
+            <span value="Shapefile - SHP - .shp">Shapefile</span>
+            <span value="Autodesk AutoCAD - DXF_R2007 - .dxf">DXF_R2007</span>
+            <span value="Autodesk AutoCAD - DWG_R2007 - .dwg">DWG_R2007</span>
+            <span value="Bentley Microstation Design (V8) - DGN_V8 - .dgn">DGN_V8</span>
+        </div>
+    </div>
+    <div style="text-align: center;">
+        <span id="loadingImg"><img src="images/loading.gif" style="height: 15px; width: 15px;"/> Processing...</span><br>
+        <button id="download" data-dojo-type="dijit/form/Button">Download</button>
+        <button id="clrExtent" data-dojo-type="dijit/form/Button">Clear Extent</button><br>
+        <span style="font-style: italic; font-size: 10px;">Requests are limited to 1000 features</span>
+    </div>
+</div>

@@ -1,0 +1,18 @@
+<div class="well" style="text-align: center;">
+    <div class="text-right"><a id="printPop" rel="popover" data-placement="left" title="Hint:"><i class="fa fa-question-circle fa" aria-hidden="true"></i></a></div>
+    <div data-dojo-type="dojox/layout/TableContainer" data-dojo-props="cols:1">
+        <div id="txtTitle" data-dojo-type="dijit/form/TextBox" title="Title:" style="width: 100%;"></div>
+        <div id='ddlPrintLayouts' data-dojo-type="dijit/form/Select" title="Layout:" style="width: 100%;">
+            <span value="8.5 x 11 (Portrait)">8.5 x 11 (Portrait)</span>
+            <span value="8.5 x 11 (Legend)">8.5 x 11 (Legend)</span>
+        </div>
+        <div id='ddlPrintFormat' data-dojo-type="dijit/form/Select" title="Format:" style="width: 100%;">
+            <span value="PDF">PDF</span>
+            <span value="JPG">JPG</span>
+        </div>
+    </div><br>
+    <div style="text-align: center;">
+        <button id="btnPrint" data-dojo-type="dijit/form/Button">Print</button>
+        <!--<div id='prtSpinner' style="display:none;"><img src='images/spinner.gif'></div>-->
+    </div>
+</div>

@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="cache-control" content="no-cache" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta name="description" content="Calcite Maps Demo - ArcGIS">
+    <meta name="author" content="">
+    <link rel="shortcut icon" href="images/GIS-Logo.png" />
+    <link rel="icon" type="image/png" href="images/GIS-Logo.png" />
+
+    <title>Benton County GIS: Basemap</title>
+
+    <!-- Calcite Bootstrap -->
+    <link rel="stylesheet" href="css/calcite-bootstrap-v0.2.css">
+
+    <!-- Calcite Maps -->
+    <link rel="stylesheet" href="css/calcite-maps-arcgis-3.x.min-v0.2.css"-->
+
+    <!-- ArcGIS JS 3.x -->
+    <!--<link rel="stylesheet" href="http://js.arcgis.com/3.17/esri/css/esri.css">-->
+    <link rel="stylesheet" href="https://js.arcgis.com/3.17/esri/themes/calcite/dijit/calcite.css">
+    <link rel="stylesheet" href="https://js.arcgis.com/3.17/esri/themes/calcite/esri/esri.css">
+    <link rel="stylesheet" href="https://js.arcgis.com/3.17/dojox/widget/Toaster/Toaster.css" />
+    <link rel="stylesheet" href="https://js.arcgis.com/3.17/dojox/widget/ColorPicker/ColorPicker.css" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/loading.css">
+    <link rel="stylesheet" href="css/custom.css">
+
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            font-weight: normal;
+        }
+
+        .map {
+            background: #cfcfd4;
+        }
+    </style>
+</head>
+
+<body class="calcite calcite-maps calcite-nav-top">
+
+<!-- Loading -->
+<div id="loadingPane" class="loadingPane" data-dojo-config="parseOnLoad: true">
+    <div class="spinner">
+        <div class="rect1"></div>
+        <div class="rect2"></div>
+        <div class="rect3"></div>
+        <div class="rect4"></div>
+        <div class="rect5"></div>
+    </div>
+    <h3 class="loadingText">Loading Basemap...</h3>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="disc-modal" tabindex="-1" role="dialog" aria-labelledby="discModalLabel" aria-hidden="true" style="overflow:auto;">
+    <div class="modal-dialog">
+        <div class="modal-content text-center">
+            <div class="modal-header"><h4 style="margin: 0;"><b>Disclaimer</b></h4></div>
+            <div class="modal-body text-center">
+                <p style="font-weight: bold; font-size: 1.1em;">PLEASE READ THIS BEFORE PROCEEDING!</p><br>
+                <p class="text-justify">
+                    This information was created by Benton County personnel in accordance with Arkansas Code 15-21-502 (2)(B), which states
+                    The digital cadastre manages and provides access to cadastral information. Digital cadastre does not represent legal property boundary descriptions,
+                    nor is it suitable for boundary determination of the individual parcels included in the cadastre and Arkansas Code 15-21-502 (6) which indicates
+                    that "Digital cadastre" means the storage and manipulation of computerized representations of parcel maps and linked databases.
+                    <br><br>
+                    This information has been developed from the best available sources. No guarantee of accuracy is granted, nor is any responsibility for reliance thereon assumed.
+                    In no event shall the County be liable for direct, indirect, incidental, consequential, or special damages of any kind, including, but not limited to, loss of anticipated
+                    profits or benefits arising out of the use of or reliance on the data.
+                    <br><br>
+                    This information herein is considered a graphical representation only. The County is in no way responsible for or liable for any misrepresentation or re-use of this
+                    information. Although this map has been processed successfully on the computers at Benton County, no guarantee, expressed or implied, is made by said County regarding
+                    the use of this map on any other system, nor does the act of distribution constitute or imply any such warranty. Distribution of this map is intended for information
+                    purposes and should not be considered authoritative for engineering, legal and other site-specific uses.
+                </p>
+            </div>
+            <div class="modal-footer" style="text-align: center !important;">
+                <button id="btnAccept"  type="button" class="btn btn-primary" data-dismiss="modal">Accept</button>
+                <button id="btnDecline" type="button" class="btn btn-default">Decline</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Error Toaster -->
+<div id="errorPane"></div>
+
+<!-- Navbar -->
+<nav class="navbar calcite-navbar navbar-fixed-top calcite-text-light calcite-bgcolor-dark-blue">
+    <!-- Menu -->
+    <div class="dropdown calcite-dropdown calcite-bg-light calcite-text-dark" role="presentation">
+        <a id="menu-pop" rel="popover" data-placement="bottom" data-content="Click here for map tools and features." class="dropdown-toggle" role="button" aria-haspopup="true" aria-expanded="false">
+            <div class="calcite-dropdown-toggle">
+                <span class="sr-only">Toggle dropdown menu</span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </a>
+        <ul class="dropdown-menu calcite-menu-drawer">
+            <li><a role="button" data-target="#panelInfo" aria-haspopup="true"><span class="glyphicon glyphicon-info-sign"></span> Info</a></li>
+            <li><a role="button" data-target="#panelDraw" aria-haspopup="true"><span><i class="fa fa-pencil" aria-hidden="true"></i></span> Draw</a></li>
+            <li><a role="button" data-target="#panelDataExt" aria-haspopup="true"><span><i class="fa fa-file-archive-o" aria-hidden="true"></i></span> Data Extractor</a></li>
+            <li><a role="button" data-target="#panelLatLong" aria-haspopup="true"><span><i class="fa fa-globe" aria-hidden="true"></i></span> Lat/Long</a></li>
+            <li><a role="button" data-target="#panelLayers" aria-haspopup="true"><span class="glyphicon glyphicon-list-alt"></span> Layers</a></li>
+            <li><a role="button" data-target="#panelLegend" aria-haspopup="true"><span><i class="fa fa-list-ul" aria-hidden="true"></i></span> Legend</a></li>
+            <li><a role="button" data-target="#panelMeasure" aria-haspopup="true"><span><i class="fa fa-arrows-v" aria-hidden="true"></i></span> Measure</a></li>
+            <li><a role="button" data-target="#panelPrint" aria-haspopup="true"><span><i class="fa fa-print" aria-hidden="true"></i></span> Print</a></li>
+            <li><a role="button" data-target="#panelSearch" aria-haspopup="true"><span class="glyphicon glyphicon-search"></span> Search</a></li>
+            <li><a role="button" data-target="#panelScale" aria-haspopup="true"><span><i class="fa fa-object-group" aria-hidden="true"></i></span> Go To Scale</a></li>
+            <li><a role="button" data-target="#panelQuery" aria-haspopup="true"><span><i class="fa fa-list-alt" aria-hidden="true"></i></span> Query</a></li>
+            <li><a role="button" id="calciteToggleNavbar" aria-haspopup="true"><span class="glyphicon glyphicon-fullscreen"></span> Full Map</a></li>
+        </ul>
+    </div>
+    <!-- Title -->
+    <div class="calcite-title calcite-overflow-hidden">
+        <span class="calcite-title-main">Basemap</span>
+        <span class="calcite-title-divider hidden-xs"></span>
+        <span class="calcite-title-sub hidden-xs">By Benton County GIS</span>
+    </div>
+    <!-- Nav -->
+    <ul class="calcite-nav nav navbar-nav">
+        <li>
+            <a role="button" id="panelResults" aria-haspopup="true" style="font-size: 22px;">
+                <span id="result-icon" class="glyphicon glyphicon-list-alt" style="font-size: 18px;"></span> Results
+            </a>
+        </li>
+    </ul>
+</nav>
+
+<!--Nav Buttons-->
+<div id="prevExt" class="nav-map-btns esriSimpleSlider" role="button" style="top: 90px; left: 15px;" title="Previous Extent">
+    <span class="glyphicon glyphicon-chevron-left" style="display: block;"></span>
+</div>
+
+<!--Nav Buttons-->
+<div id="nextExt" class="nav-map-btns esriSimpleSlider" role="button" style="top: 125px; left: 15px;" title="Next Extent">
+    <span class="glyphicon glyphicon-chevron-right" style="display: block;"></span>
+</div>
+
+<!--Nav Buttons-->
+<div id="fullExt" class="nav-map-btns esriSimpleSlider" role="button" style="top: 160px; left: 15px;" title="Full Extent">
+    <span class="glyphicon glyphicon-globe" style="display: block;"></span>
+</div>
+
+<!-- Map Container  -->
+<div class="calcite-map">
+    <div id="mapViewDiv" class="calcite-map-absolute"></div>
+</div>
+
+<footer id="footer">
+    <div id="resultsContainer" class="results-closed"></div>
+</footer>
+
+<!-- Panel -->
+<div class="calcite-panels calcite-panels-right calcite-bg-light calcite-text-dark panel-group" role="tablist" aria-multiselectable="true">
+
+    <!-- Draw Panel -->
+    <div id="panelDraw" class="panel collapse">
+        <div id="headingDraw" class="panel-heading" role="tab">
+            <div class="panel-title">
+                <a class="panel-toggle collapsed" role="button" data-toggle="collapse" href="#collapseDraw" aria-expanded="false" aria-controls="collapseDraw">
+                    <i class="fa fa-pencil" aria-hidden="true"></i>
+                    <span class="panel-label">Draw</span>
+                </a>
+                <a class="panel-close" role="button" data-toggle="collapse" data-target="#panelDraw">
+                    <span class="esri-icon esri-icon-close" aria-hidden="true"></span>
+                </a>
+            </div>
+        </div>
+        <div id="collapseDraw" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingDraw">
+            <div class="panel-body">
+                <div id="drawDiv"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Data Extractor Panel -->
+    <div id="panelDataExt" class="panel collapse">
+        <div id="headingDataExt" class="panel-heading" role="tab">
+            <div class="panel-title">
+                <a class="panel-toggle collapsed" role="button" data-toggle="collapse" href="#collapseDataExt" aria-expanded="false" aria-controls="collapseDataExt">
+                    <i class="fa fa-file-archive-o" aria-hidden="true"></i>
+                    <span class="panel-label">Data Extractor</span>
+                </a>
+                <a class="panel-close" role="button" data-toggle="collapse" data-target="#panelDataExt">
+                    <span class="esri-icon esri-icon-close" aria-hidden="true"></span>
+                </a>
+            </div>
+        </div>
+        <div id="collapseDataExt" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingDataExt">
+            <div class="panel-body">
+                <div id="dataExtDiv"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Info Panel -->
+    <div id="panelInfo" class="panel collapse">
+        <div id="headingInfo" class="panel-heading" role="tab">
+            <div class="panel-title">
+                <a class="panel-toggle" role="button" data-toggle="collapse" href="#collapseInfo"  aria-expanded="true" aria-controls="collapseInfo">
+                    <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
+                    <span class="panel-label">Info</span>
+                </a>
+                <a class="panel-close" role="button" data-toggle="collapse" data-target="#panelInfo">
+                    <span class="esri-icon esri-icon-close" aria-hidden="true"></span>
+                </a>
+            </div>
+        </div>
+        <div id="collapseInfo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingInfo">
+            <div class="panel-body">
+                <label>Overall Changes</label>
+                <li>Mobile support</li>
+                <li>Responsive design</li>
+                <br>
+                <label>Browser Support</label>
+                <li>Edge, Chrome, Internet Explorer</li>
+                <li>Firefox, Safari (Newer versions)</li>
+                <br>
+                <label>Widgets</label>
+                <li>Only one widget open at a time</li>
+                <li>Most have been simplified for mobile use</li>
+                <li>Not draggable</li>
+                <li>Can be minimized/maximized</li>
+            </div>
+        </div>
+    </div>
+
+    <!-- Lat/Long Panel -->
+    <div id="panelLatLong" class="panel collapse">
+        <div id="headingLatLong" class="panel-heading" role="tab">
+            <div class="panel-title">
+                <a class="panel-toggle collapsed" role="button" data-toggle="collapse" href="#collapseLatLong" aria-expanded="false" aria-controls="collapseLatLong">
+                    <i class="fa fa-globe" aria-hidden="true"></i>
+                    <span class="panel-label">Lat/Long</span>
+                </a>
+                <a class="panel-close" role="button" data-toggle="collapse" data-target="#panelLatLong">
+                    <span class="esri-icon esri-icon-close" aria-hidden="true"></span>
+                </a>
+            </div>
+        </div>
+        <div id="collapseLatLong" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingLatLong">
+            <div class="panel-body">
+                <div id="latLongDiv"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Layers Panel -->
+    <div id="panelLayers" class="panel collapse">
+        <div id="headingLayers" class="panel-heading" role="tab">
+            <div class="panel-title">
+                <a class="panel-toggle collapsed" role="button" data-toggle="collapse" href="#collapseLayers" aria-expanded="false" aria-controls="collapseLayers">
+                    <span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>
+                    <span class="panel-label">Layers</span>
+                </a>
+                <a class="panel-close" role="button" data-toggle="collapse" data-target="#panelLayers">
+                    <span class="esri-icon esri-icon-close" aria-hidden="true"></span>
+                </a>
+            </div>
+        </div>
+        <div id="collapseLayers" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingLayers">
+            <div class="panel-body" style="padding: 1em;">
+                <div class="text-right"><a id="layerPop" rel="popover" data-placement="left" title="Hint:"><i class="fa fa-question-circle fa" aria-hidden="true"></i></a></div>
+                <div style="border: 1px solid #ccc;">
+                    <div id="layerList"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Legend Panel -->
+    <div id="panelLegend" class="panel collapse">
+        <div id="headingLegend" class="panel-heading" role="tab">
+            <div class="panel-title">
+                <a class="panel-toggle collapsed" role="button" data-toggle="collapse" href="#collapseLegend" aria-expanded="false" aria-controls="collapseLegend">
+                    <span><i class="fa fa-list-ul" aria-hidden="true"></i></span>
+                    <span class="panel-label">Legend</span>
+                </a>
+                <a class="panel-close" role="button" data-toggle="collapse" data-target="#panelLegend">
+                    <span class="esri-icon esri-icon-close" aria-hidden="true"></span>
+                </a>
+            </div>
+        </div>
+        <div id="collapseLegend" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingLegend">
+            <div class="panel-body" style="padding: 1em;">
+                <div class="text-right"><a id="legendPop" rel="popover" data-placement="left" title="Hint:"><i class="fa fa-question-circle fa" aria-hidden="true"></i></a></div>
+                <div style="border: 1px solid #ccc;">
+                    <div id="legendList"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Measurement Panel -->
+    <div id="panelMeasure" class="panel collapse">
+        <div id="headingMeasure" class="panel-heading" role="tab">
+            <div class="panel-title">
+                <a class="panel-toggle collapsed" role="button" data-toggle="collapse" href="#collapseMeasure" aria-expanded="false" aria-controls="collapseMeasure">
+                    <i class="fa fa-arrows-v" aria-hidden="true"></i>
+                    <span class="panel-label">Measure</span>
+                </a>
+                <a class="panel-close" role="button" data-toggle="collapse" data-target="#panelMeasure">
+                    <span class="esri-icon esri-icon-close" aria-hidden="true"></span>
+                </a>
+            </div>
+        </div>
+        <div id="collapseMeasure" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingMeasure">
+            <div class="panel-body">
+                <div class="text-center">
+                    <div class="text-right"><a id="measurePop" rel="popover" data-placement="left" title="Hint:"><i class="fa fa-question-circle fa" aria-hidden="true"></i></a></div>
+                    <label>Select a measurement tool</label>
+                    <p style="font-size: 10px;">(To disable deselect tool)</p>
+                </div>
+                <div id="measurementDiv"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Print Panel -->
+    <div id="panelPrint" class="panel collapse">
+        <div id="headingPrint" class="panel-heading" role="tab">
+            <div class="panel-title">
+                <a class="panel-toggle collapsed" role="button" data-toggle="collapse" href="#collapsePrint" aria-expanded="false" aria-controls="collapsePrint">
+                    <i class="fa fa-print" aria-hidden="true"></i>
+                    <span class="panel-label">Print:</span>
+                </a>
+                <a class="panel-close" role="button" data-toggle="collapse" data-target="#panelPrint">
+                    <span class="esri-icon esri-icon-close" aria-hidden="true"></span>
+                </a>
+            </div>
+        </div>
+        <div id="collapsePrint" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingPrint">
+            <div class="panel-body">
+                <div id="printDiv"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Search Panel -->
+    <div id="panelSearch" class="panel collapse">
+        <div id="headingSearch" class="panel-heading" role="tab">
+            <div class="panel-title">
+                <a class="panel-toggle collapsed" role="button" data-toggle="collapse" href="#collapseSearch" aria-expanded="false" aria-controls="collapseSearch">
+                    <span class="glyphicon glyphicon-search"></span>
+                    <span class="panel-label">Search:</span>
+                </a>
+                <a class="panel-close" role="button" data-toggle="collapse" data-target="#panelSearch">
+                    <span class="esri-icon esri-icon-close" aria-hidden="true"></span>
+                </a>
+            </div>
+        </div>
+        <div id="collapseSearch" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingSearch">
+            <div class="panel-body">
+                <div id="searchDiv"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scale Panel -->
+    <div id="panelScale" class="panel collapse">
+        <div id="headingScale" class="panel-heading" role="tab">
+            <div class="panel-title">
+                <a class="panel-toggle collapsed" role="button" data-toggle="collapse" href="#collapseScale" aria-expanded="false" aria-controls="collapseScale">
+                    <i class="fa fa-object-group" aria-hidden="true"></i>
+                    <span class="panel-label">Zoom To Scale:</span>
+                </a>
+                <a class="panel-close" role="button" data-toggle="collapse" data-target="#panelScale">
+                    <span class="esri-icon esri-icon-close" aria-hidden="true"></span>
+                </a>
+            </div>
+        </div>
+        <div id="collapseScale" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingScale">
+            <div class="panel-body">
+                <div id="scaleDiv"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Query Panel -->
+    <div id="panelQuery" class="panel collapse">
+        <div id="headingQuery" class="panel-heading" role="tab">
+            <div class="panel-title">
+                <a class="panel-toggle collapsed" role="button" data-toggle="collapse" href="#collapseQuery" aria-expanded="false" aria-controls="collapseQuery">
+                    <i class="fa fa-list-alt" aria-hidden="true"></i>
+                    <span class="panel-label">Query:</span>
+                </a>
+                <a class="panel-close" role="button" data-toggle="collapse" data-target="#panelQuery">
+                    <span class="esri-icon esri-icon-close" aria-hidden="true"></span>
+                </a>
+            </div>
+        </div>
+        <div id="collapseQuery" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingQuery">
+            <div class="panel-body">
+                <div id="queryDiv"></div>
+            </div>
+        </div>
+    </div>
+</div> <!-- /.calcite-panels -->
+
+<script type="text/javascript">
+    var dojoConfig = {
+        packages: [
+            {
+            name: "bootstrap",
+            //location: "https://esri.github.io/calcite-maps/dist/js/dojo-bootstrap"
+            location: location.pathname.replace(/\/[^/]+$/, "") + "/vendor/dojo-bootstrap"
+            },
+            {
+                name: "calcite-maps",
+                //location: "https://esri.github.io/calcite-maps/dist/js/dojo"
+                location: location.pathname.replace(/\/[^/]+$/, "") + "/js/dojo"
+            },
+            {
+                name: "widgets",
+                //location: "https://esri.github.io/calcite-maps/dist/js/dojo"
+                location: location.pathname.replace(/\/[^/]+$/, "") + "/js/widgets"
+            },
+            {
+                name: "events",
+                //location: "https://esri.github.io/calcite-maps/dist/js/dojo"
+                location: location.pathname.replace(/\/[^/]+$/, "") + "/js/events"
+            }]
+    };
+</script>
+
+<!-- ArcGIS JS 3.x -->
+<script src="https://js.arcgis.com/3.17/"></script>
+<script src="loader.js"></script>
+<!--<script>
+    require(["dojo/dom"],
+        function(dom){
+
+        });
+</script>-->
+</body>
+</html>
+
